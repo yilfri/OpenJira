@@ -1,0 +1,5 @@
+.dragging {
+	background-color: rgba(60, 53, 250, 0.1);
+	border-radius: 10px;
+	/* border: 1px dashed; */
+}
