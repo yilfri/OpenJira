@@ -3,6 +3,7 @@ import { useContext, DragEvent, FC } from 'react';
 import { Card, CardActionArea, CardActions, CardContent, Typography } from '@mui/material';
 import { Entry } from '../../interfaces';
 import { UIContext } from '../../context/ui';
+import { useRouter } from 'next/router';
 
 interface Props {
 	entry: Entry;
@@ -10,21 +11,29 @@ interface Props {
 
 export const EntryCard: FC<Props> = ({ entry }) => {
 	const { startDragging, endDragging } = useContext(UIContext);
+	const router = useRouter();
 
 	const onDragStart = (event: DragEvent) => {
 		event.dataTransfer.setData('text', entry._id);
 		startDragging();
-
-		// Todo: modify state, to indicate than I'm dragging
 	};
 
 	const onDragEnd = () => {
 		endDragging();
-		// Todo: cancel drag
+	};
+
+	const onClick = () => {
+		router.push(`/entries/${entry._id}`);
 	};
 
 	return (
-		<Card sx={{ marginBottom: 1 }} draggable onDragStart={onDragStart} onDragEnd={onDragEnd}>
+		<Card
+			onClick={onClick}
+			sx={{ marginBottom: 1 }}
+			draggable
+			onDragStart={onDragStart}
+			onDragEnd={onDragEnd}
+		>
 			<CardActionArea>
 				<CardContent>
 					<Typography sx={{ whiteSpace: 'pre-line' }}>{entry.description}</Typography>
